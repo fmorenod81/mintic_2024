@@ -40,3 +40,28 @@ postgresql   ClusterIP      10.100.135.109   <none>        5432/TCP       96s ``
 
 Se verifica la IP que genera como Cluster-IP para configurar el Drupal cuando nos pida el host del PostgreSQL, en este caso seria 10.100.135.109.
 
+
+
+Cuando se realizen las pruebas de funcionamiento del Drupal como se explicaron en el PDF del GDrive, se procede a borrar los deployment asi:
+
+kubectl delete -f drupal.yaml
+
+>> Respuesta
+
+ ``persistentvolumeclaim "drupal-claim" deleted
+
+deployment.apps "drupal" deleted
+
+service "drupal" deleted ``
+
+Luego, la base de datos
+
+kubectl delete -f postgres.yaml
+
+ >> Respuesta
+
+ ``persistentvolumeclaim "postgres-claim" deleted
+
+deployment.apps "postgresql" deleted
+
+service "postgresql" deleted ``
