@@ -1,0 +1,75 @@
+# Primera seccion se presenta los volumenes persistentes
+# Segunda seccion se presenta el deployment de postgres
+# Tercera seccion se presenta el servicio de postgres
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-claim
+  labels:
+    app: drupal
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+  labels:
+    app: drupal
+spec:
+  selector:
+    matchLabels:
+      app: drupal
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: drupal
+        tier: postgreSQL
+    spec:
+      containers:
+        - image: postgres:latest
+          name: postgresql
+          # Variables de entorno para postgres y presentar en la configuracion del Drupal
+          env:
+            - name: POSTGRES_USER
+              value: drupal
+            - name: POSTGRES_DB
+              value: drupal_production
+            - name: POSTGRES_PASSWORD
+              value: drupal
+          # Se especifica el puerto de salida del postgress
+          ports:
+            - containerPort: 5432
+              name: postgresql
+          # Se montar el volumen de postgres en la carpeta de dato.
+          volumeMounts:
+            - name: postgresql
+              mountPath: /var/lib/postgresql/data
+      # Se muestra el PVC en la carpeta de datos especificado en el VolumeMounts
+      volumes:
+        - name: postgresql
+          persistentVolumeClaim:
+            claimName: postgres-claim
+---
+# Se crea el servicio, sin especificacion del tipo se crea de tipo ClusterIP por defecto
+# Se genera una IP dentro del cluster para que expondra el servicio y por detras estaran los pods
+# Este tipo de Servicio (ClusterIP) solo es de servicio interno
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql
+  labels:
+    app: drupal
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: drupal
+    tier: postgreSQL

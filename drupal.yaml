@@ -1,0 +1,73 @@
+# Primera seccion de configuracion se crea el volumen persistente
+# Segunda seccion se crea el deployment con el volumen persistente
+# Tercera seccion se crea el servicio para el deployment
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: drupal-claim
+  labels:
+    app: drupal
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drupal
+  labels:
+    app: drupal
+spec:
+  selector:
+    matchLabels:
+      app: drupal
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+    # Se especifica como se engancha el deployment con el servicio
+      labels:
+        app: drupal
+        tier: frontend
+    spec:
+      containers:
+        - image: drupal:latest
+          name: drupal
+          # Se hace el mapeo de ese PVC a diferentes rutas
+          volumeMounts:
+            - name: drupal
+              mountPath: /var/www/html/modules
+              subPath: modules
+            - name: drupal
+              mountPath: /var/www/html/profiles
+              subPath: profiles
+            - name: drupal
+              mountPath: /var/www/html/themes
+              subPath: themes
+      # Una solo volumen anclado puede contener todas las rutas
+      volumes:
+        - name: drupal
+          persistentVolumeClaim:
+            claimName: drupal-claim
+---
+# Creacion del servicio externo (en el computador local) seria localhost en el puerto 80
+# El Servicio de tipo LoadBalancer aplica para que pueda ser accedido desde afuera del cluster
+# En el caso de ser local (su propio PC) se expondra en localhost en el puerto especificado
+# En el caso de nube se podria colocar anotaciones para la exposicion del servicio
+apiVersion: v1
+kind: Service
+metadata:
+  name: drupal
+  labels:
+    app: drupal
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+  selector:
+    app: drupal
+    tier: frontend
