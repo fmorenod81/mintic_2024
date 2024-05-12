@@ -35,7 +35,8 @@ spec:
         tier: frontend
     spec:
       containers:
-        - image: drupal:latest
+        #- image: drupal:latest
+        - image: fmorenod/drupal:despliegue_cli
           name: drupal
           # Se hace el mapeo de ese PVC a diferentes rutas
           volumeMounts:

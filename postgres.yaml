@@ -34,7 +34,8 @@ spec:
         tier: postgreSQL
     spec:
       containers:
-        - image: postgres:latest
+        #- image: postgres:latest
+        - image: fmorenod/postresql:despliegue_cli
           name: postgresql
           # Variables de entorno para postgres y presentar en la configuracion del Drupal
           env:
