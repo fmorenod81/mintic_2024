@@ -2,3 +2,11 @@ unidad3/creation/*.csv
 unidad3/creation/terraform.tfstate
 unidad3/creation/.terraform.*
 unidad3/creation/.terraform/*
+unidad3/test/.terraform.*
+unidad3/test/.terraform/*
+unidad3/test/terraform.tfstate
+unidad3/test/terraform.tfstate*
+unidad3/testl1/.terraform.*
+unidad3/testl1/.terraform/*
+unidad3/testl1/terraform.tfstate
+unidad3/testl1/terraform.tfstate*

@@ -44,7 +44,7 @@ resource "local_file" "l2user_keys" {
   filename = "l2user-keys.csv"
 }
 resource "local_file" "l3user_keys" {
-  content  = local.l2user_keys_csv
+  content  = local.l3user_keys_csv
   filename = "l3user-keys.csv"
 }
 #### SECTION 3: CREATE PERMISSIONS AND POLICIES
@@ -52,6 +52,7 @@ data "aws_iam_policy_document" "actionsforL1group" {
   statement {
     actions = [
     "ec2:DescribeInstances",
+    "ec2:DescribeInstanceStatus",
     "ec2:RunInstances",
     "ec2:StartInstances",
     "ec2:StopInstances",
@@ -59,7 +60,7 @@ data "aws_iam_policy_document" "actionsforL1group" {
     ]
 
     resources = [
-      "arn:aws:ec2:*:*:instance/*",
+      "*",
     ]
   }
 }
@@ -67,6 +68,13 @@ data "aws_iam_policy_document" "actionsforL2group" {
   statement {
     actions = [
     "ec2:DescribeInstances",
+    "ec2:CreateTags",
+    "ec2:DescribeTags",
+    "ec2:DescribeInstanceTypes",
+    "ec2:DescribeInstanceAttribute",
+    "ec2:DescribeVolumes",
+    "ec2:DescribeInstanceCreditSpecifications",
+    "ec2:DescribeImages",
     "ec2:RunInstances",
     "ec2:StartInstances",
     "ec2:StopInstances",
