@@ -1,5 +1,6 @@
 unidad3/creation/*.csv
 unidad3/creation/terraform.tfstate
+unidad3/creation/terraform.tfstate*
 unidad3/creation/.terraform.*
 unidad3/creation/.terraform/*
 unidad3/test/.terraform.*
