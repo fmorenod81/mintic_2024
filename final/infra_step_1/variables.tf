@@ -28,13 +28,13 @@ variable "private_subnets_cidr" {
 
 variable "private_subnets_ports" {
   type        = list(any)
-  default     = ["8080", "3306", "5432"]
+  default     = ["3306", "5432"]
   description = "Opened Ports from Public Subnets to these ports"
 }
 
 variable "public_subnets_ports" {
   type        = list(any)
-  default     = ["80", "8080", "22"]
+  default     = ["80", "22"]
   description = "Opened Ports from Internet to these ports"
 }
 variable "name_of_keypair" {
