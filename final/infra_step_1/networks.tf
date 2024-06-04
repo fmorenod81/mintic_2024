@@ -175,4 +175,11 @@ resource "aws_security_group" "private" {
             cidr_blocks = var.public_subnets_cidr
         }
     }
+   ## I add the Quicksifht for us-east-1: List of IPs 
+  ingress {
+    from_port = 5432
+    to_port = 5432
+    protocol = "tcp"
+    cidr_blocks = [ "52.23.63.224/27" ]
+  }
 }
