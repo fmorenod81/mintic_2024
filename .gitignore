@@ -11,3 +11,14 @@ unidad3/testl1/.terraform.*
 unidad3/testl1/.terraform/*
 unidad3/testl1/terraform.tfstate
 unidad3/testl1/terraform.tfstate*
+final/*.zip
+final/usercreation/*.csv
+final/usercreation/terraform.tfstate
+final/usercreation/terraform.tfstate*
+final/usercreation/.terraform.*
+final/usercreation/.terraform/*
+final/infra_step_1/terraform.tfstate
+final/infra_step_1/terraform.tfstate*
+final/infra_step_1/.terraform.*
+final/infra_step_1/.terraform/*
+final/infra_step_1/my*
